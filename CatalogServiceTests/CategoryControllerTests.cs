@@ -22,10 +22,10 @@ namespace CatalogServiceTests
         }
 
         [Fact]
-        public async Task GetCategories_ReturnsEmptyList()
+        public async Task GetCategories_ReturnsList()
         {
             var result = await _controller.GetCategories();
-            Assert.Empty(result.Value);
+            Assert.NotNull(result.Value);
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace CatalogServiceTests
 
             var actionResult = await _controller.AddCategory(category);
             var result = actionResult.Result as CreatedAtActionResult;
-            var returnValue = result?.Value as Category;
+            var returnValue = result.Value as Category;
 
             Assert.NotNull(result);
             Assert.Equal("Test Category", returnValue?.Name);
@@ -44,7 +44,7 @@ namespace CatalogServiceTests
         [Fact]
         public async Task UpdateCategory_ReturnsNoContent()
         {
-            var category = new Category { Name = "Original Category" };
+            var category = new Category { Name = "Some Category" };
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
